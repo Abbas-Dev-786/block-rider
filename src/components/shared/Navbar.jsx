@@ -3,8 +3,15 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useAccount, useReadContract } from "wagmi";
-import { CONTRACT_ADDRESS } from "../../constant";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { CONTRACT_ADDRESS, NETWORK, PROGRAM_ID } from "../../constant";
 import abi from "../../abi/contract.abi.json";
+import { PublicKey } from "@solana/web3.js";
+// import { AnchorProvider } from "@project-serum/anchor";
+
+const programId = new PublicKey(PROGRAM_ID);
+const network = NETWORK;
 
 const NAV_LINKS = [
   { text: "Book a Ride", link: "/book-ride", showOnConnected: false },
@@ -19,15 +26,18 @@ const NAV_LINKS = [
 ];
 
 const Navbar = () => {
-  const { isConnected, address } = useAccount();
+  const { connection } = useConnection();
+  const { publicKey, sendTransaction, wallet } = useWallet();
+
+  // const { isConnected, address } = useAccount();
   const [isOpen, setOpen] = useState(false);
 
-  const { data: driverData } = useReadContract({
-    abi,
-    address: CONTRACT_ADDRESS,
-    functionName: "drivers",
-    args: [address],
-  });
+  // const { data: driverData } = useReadContract({
+  //   abi,
+  //   address: CONTRACT_ADDRESS,
+  //   functionName: "drivers",
+  //   args: [address],
+  // });
 
   return (
     <header>
@@ -77,7 +87,20 @@ const Navbar = () => {
 
           {/* Action buttons */}
           <div className="flex items-center lg:order-2">
-            <w3m-button label="Login / Register" size="sm" />
+            <WalletMultiButton
+              style={{
+                background: "transparent",
+                border: "1px solid white",
+                padding: "2px 10px",
+                borderRadius: "50px",
+                fontSize: "14px",
+                height: "auto",
+                lineHeight: "30px",
+                fontFamily: "inherit",
+                outline: "none",
+              }}
+            />
+            {/* <w3m-button label="Login / Register" size="sm" /> */}
           </div>
 
           {/* nav links */}
@@ -89,7 +112,7 @@ const Navbar = () => {
           >
             <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
               {NAV_LINKS.filter((link) =>
-                link.showOnConnected === false ? true : isConnected
+                link.showOnConnected === false ? true : Boolean(publicKey)
               ).map(({ text, link }) => (
                 <li key={text} onClick={() => setOpen(false)}>
                   <NavLink
@@ -105,7 +128,7 @@ const Navbar = () => {
                 </li>
               ))}
 
-              {driverData?.[0] && (
+              {/* {driverData?.[0] && (
                 <li onClick={() => setOpen(false)}>
                   <NavLink
                     to={"/driver-panel"}
@@ -118,7 +141,7 @@ const Navbar = () => {
                     Driver Panel
                   </NavLink>
                 </li>
-              )}
+              )} */}
             </ul>
           </div>
         </div>
