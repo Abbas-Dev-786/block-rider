@@ -3,9 +3,10 @@ import { Connection, PublicKey } from "@solana/web3.js";
 import { Program, Provider } from "@project-serum/anchor";
 import { useWallet } from "@solana/wallet-adapter-react";
 import idl from "../idl/contract.idl.json";
+import { NETWORK, PROGRAM_ID } from "../constant";
 
-const network = "https://api.devnet.solana.com";
-const programID = new PublicKey("BZux6McmrjjyDHkYMtnoivgbsoKMRwRSficXMxcCVwR2"); // program ID
+const network = NETWORK;
+const programID = new PublicKey(PROGRAM_ID); // program ID
 const opts = {
   preflightCommitment: "processed",
 };
