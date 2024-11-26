@@ -66,7 +66,7 @@ The contract also provides error handling for various scenarios like invalid rid
 ### **1. Prerequisites**
 - **Node.js** (version 16 or above)
 - **Solana CLI** and **Soon Blockchain Testnet** setup
-- **Web3 Wallet** (e.g., Phantom Wallet) connected to the Soon Testnet
+- **Web3 Wallet** (Backpack Wallet) connected to the Soon Testnet
 - **Rust** and **Anchor** framework installed for smart contract deployment
 
 ### **2. Set up the Project**
