@@ -1,266 +1,166 @@
 {
-  "address": "5pSxfjcSDtT31KPmzzpbkT5A7614ycsLpB6n2fUFUYXw",
-  "metadata": {
-    "name": "ride_sharing_escrow",
-    "version": "0.1.0",
-    "spec": "0.1.0",
-    "description": "Created with Anchor"
-  },
-  "docs": [
-    "Since this account will only be used to receive platform fees, we assume",
-    "it is valid and safe to use as a recipient for the fees. The platform's",
-    "public key is set and validated externally, making this field safe for use."
-  ],
+  "version": "0.1.0",
+  "name": "ride_sharing_escrow",
   "instructions": [
     {
-      "name": "accept_ride",
-      "discriminator": [208, 246, 118, 77, 20, 106, 157, 232],
-      "accounts": [
-        {
-          "name": "ride_account",
-          "writable": true
-        },
-        {
-          "name": "driver",
-          "writable": true,
-          "signer": true,
-          "relations": ["driver_account"]
-        },
-        {
-          "name": "driver_account",
-          "writable": true
-        }
-      ],
-      "args": [
-        {
-          "name": "trip_id",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "cancel_ride",
-      "discriminator": [150, 77, 203, 32, 143, 141, 243, 192],
-      "accounts": [
-        {
-          "name": "ride_account",
-          "writable": true
-        },
-        {
-          "name": "rider",
-          "writable": true,
-          "signer": true
-        }
-      ],
-      "args": [
-        {
-          "name": "trip_id",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "complete_ride",
-      "discriminator": [196, 120, 0, 113, 17, 178, 79, 225],
-      "accounts": [
-        {
-          "name": "ride_account",
-          "writable": true
-        },
-        {
-          "name": "escrow_account",
-          "writable": true
-        },
-        {
-          "name": "driver",
-          "writable": true,
-          "signer": true,
-          "relations": ["driver_account"]
-        },
-        {
-          "name": "driver_account",
-          "writable": true
-        },
-        {
-          "name": "fee_recipient",
-          "writable": true
-        }
-      ],
-      "args": [
-        {
-          "name": "trip_id",
-          "type": "u64"
-        },
-        {
-          "name": "driver_rating",
-          "type": "u8"
-        },
-        {
-          "name": "rider_rating",
-          "type": "u8"
-        }
-      ]
-    },
-    {
-      "name": "create_ride",
-      "discriminator": [148, 15, 25, 160, 176, 215, 211, 58],
-      "accounts": [
-        {
-          "name": "ride_account",
-          "writable": true,
-          "signer": true
-        },
-        {
-          "name": "rider",
-          "writable": true,
-          "signer": true
-        },
-        {
-          "name": "system_program",
-          "address": "11111111111111111111111111111111"
-        }
-      ],
-      "args": [
-        {
-          "name": "source",
-          "type": {
-            "array": ["i64", 2]
-          }
-        },
-        {
-          "name": "destination",
-          "type": {
-            "array": ["i64", 2]
-          }
-        },
-        {
-          "name": "fare",
-          "type": "u64"
-        }
-      ]
-    },
-    {
       "name": "initialize",
-      "discriminator": [175, 175, 109, 31, 13, 152, 155, 237],
       "accounts": [
-        {
-          "name": "escrow_account",
-          "writable": true,
-          "signer": true
-        },
-        {
-          "name": "signer",
-          "writable": true,
-          "signer": true
-        },
-        {
-          "name": "fee_recipient",
-          "docs": [
-            "Since this account will only be used to receive platform fees, we assume",
-            "it is valid and safe to use as a recipient for the fees. The platform's",
-            "public key is set and validated externally, making this field safe for use."
-          ]
-        },
-        {
-          "name": "system_program",
-          "address": "11111111111111111111111111111111"
-        }
+        { "name": "escrowAccount", "isMut": true, "isSigner": true },
+        { "name": "signer", "isMut": true, "isSigner": true },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": []
+    },
+    {
+      "name": "registerDriver",
+      "accounts": [
+        { "name": "driverAccount", "isMut": true, "isSigner": true },
+        { "name": "driver", "isMut": true, "isSigner": true },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
       ],
       "args": [
-        {
-          "name": "platform_fee_rate",
-          "type": "u16"
-        },
-        {
-          "name": "fee_recipient",
-          "type": "pubkey"
-        }
+        { "name": "name", "type": "string" },
+        { "name": "licenseNumber", "type": "string" }
       ]
     },
     {
-      "name": "register_driver",
-      "discriminator": [111, 15, 228, 191, 92, 150, 88, 27],
+      "name": "createRide",
       "accounts": [
-        {
-          "name": "driver_account",
-          "writable": true,
-          "signer": true
-        },
-        {
-          "name": "driver",
-          "writable": true,
-          "signer": true
-        },
-        {
-          "name": "system_program",
-          "address": "11111111111111111111111111111111"
-        }
+        { "name": "rideAccount", "isMut": true, "isSigner": true },
+        { "name": "rider", "isMut": true, "isSigner": true },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
       ],
       "args": [
-        {
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "name": "license_number",
-          "type": "string"
-        }
+        { "name": "source", "type": { "array": ["i64", 2] } },
+        { "name": "destination", "type": { "array": ["i64", 2] } },
+        { "name": "fare", "type": "u64" }
       ]
+    },
+    {
+      "name": "acceptRide",
+      "accounts": [
+        { "name": "rideAccount", "isMut": true, "isSigner": false },
+        { "name": "driver", "isMut": true, "isSigner": true },
+        { "name": "driverAccount", "isMut": true, "isSigner": false }
+      ],
+      "args": [{ "name": "tripId", "type": "u64" }]
+    },
+    {
+      "name": "completeRide",
+      "accounts": [
+        { "name": "rideAccount", "isMut": true, "isSigner": false },
+        { "name": "escrowAccount", "isMut": true, "isSigner": false },
+        { "name": "driver", "isMut": true, "isSigner": true },
+        { "name": "driverAccount", "isMut": true, "isSigner": false },
+        { "name": "feeRecipient", "isMut": true, "isSigner": false }
+      ],
+      "args": [
+        { "name": "tripId", "type": "u64" },
+        { "name": "driverRating", "type": "u8" },
+        { "name": "riderRating", "type": "u8" }
+      ]
+    },
+    {
+      "name": "cancelRide",
+      "accounts": [
+        { "name": "rideAccount", "isMut": true, "isSigner": false },
+        { "name": "rider", "isMut": true, "isSigner": true }
+      ],
+      "args": [{ "name": "tripId", "type": "u64" }]
     }
   ],
   "accounts": [
     {
-      "name": "DriverAccount",
-      "discriminator": [200, 153, 71, 1, 45, 108, 45, 203]
+      "name": "EscrowAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "platformFeeRate", "type": "u16" },
+          { "name": "feeRecipient", "type": "publicKey" }
+        ]
+      }
     },
     {
-      "name": "EscrowAccount",
-      "discriminator": [36, 69, 48, 18, 128, 225, 125, 135]
+      "name": "DriverAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "driver", "type": "publicKey" },
+          { "name": "name", "type": "string" },
+          { "name": "licenseNumber", "type": "string" },
+          { "name": "isRegistered", "type": "bool" },
+          { "name": "rating", "type": "u32" },
+          { "name": "totalRides", "type": "u32" }
+        ]
+      }
     },
     {
       "name": "RideAccount",
-      "discriminator": [109, 42, 135, 22, 195, 142, 65, 186]
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "tripId", "type": "u64" },
+          { "name": "rider", "type": "publicKey" },
+          { "name": "driver", "type": "publicKey" },
+          { "name": "fare", "type": "u64" },
+          { "name": "source", "type": { "array": ["i64", 2] } },
+          { "name": "destination", "type": { "array": ["i64", 2] } },
+          { "name": "status", "type": { "defined": "RideStatus" } },
+          { "name": "createdAt", "type": "i64" },
+          { "name": "driverRating", "type": "u8" },
+          { "name": "riderRating", "type": "u8" }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "RideStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          { "name": "Created" },
+          { "name": "Accepted" },
+          { "name": "Completed" },
+          { "name": "Cancelled" }
+        ]
+      }
     }
   ],
   "events": [
     {
-      "name": "RideAccepted",
-      "discriminator": [103, 72, 237, 131, 144, 221, 166, 51]
+      "name": "RideCreated",
+      "fields": [
+        { "name": "tripId", "type": "u64", "index": false },
+        { "name": "rider", "type": "publicKey", "index": false },
+        { "name": "fare", "type": "u64", "index": false }
+      ]
     },
     {
-      "name": "RideCancelled",
-      "discriminator": [87, 170, 240, 99, 215, 122, 30, 242]
+      "name": "RideAccepted",
+      "fields": [
+        { "name": "tripId", "type": "u64", "index": false },
+        { "name": "driver", "type": "publicKey", "index": false }
+      ]
     },
     {
       "name": "RideCompleted",
-      "discriminator": [68, 252, 121, 152, 143, 69, 107, 97]
+      "fields": [
+        { "name": "tripId", "type": "u64", "index": false },
+        { "name": "driverRating", "type": "u8", "index": false },
+        { "name": "riderRating", "type": "u8", "index": false }
+      ]
     },
     {
-      "name": "RideCreated",
-      "discriminator": [51, 74, 119, 23, 71, 8, 106, 71]
+      "name": "RideCancelled",
+      "fields": [{ "name": "tripId", "type": "u64", "index": false }]
     }
   ],
   "errors": [
-    {
-      "code": 6000,
-      "name": "InvalidFeeRate",
-      "msg": "Invalid fee rate."
-    },
-    {
-      "code": 6001,
-      "name": "InvalidFare",
-      "msg": "Invalid fare."
-    },
-    {
-      "code": 6002,
-      "name": "InvalidRideState",
-      "msg": "Invalid ride state."
-    },
-    {
-      "code": 6003,
-      "name": "RideExpired",
-      "msg": "Ride expired."
-    },
+    { "code": 6000, "name": "InvalidFeeRate", "msg": "Invalid fee rate." },
+    { "code": 6001, "name": "InvalidFare", "msg": "Invalid fare." },
+    { "code": 6002, "name": "InvalidRideState", "msg": "Invalid ride state." },
+    { "code": 6003, "name": "RideExpired", "msg": "Ride expired." },
     {
       "code": 6004,
       "name": "UnauthorizedAction",
@@ -281,204 +181,6 @@
       "name": "InvalidLicenseNumber",
       "msg": "Invalid license number."
     },
-    {
-      "code": 6008,
-      "name": "InvalidRating",
-      "msg": "Invalid rating."
-    }
-  ],
-  "types": [
-    {
-      "name": "DriverAccount",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "driver",
-            "type": "pubkey"
-          },
-          {
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "name": "license_number",
-            "type": "string"
-          },
-          {
-            "name": "is_registered",
-            "type": "bool"
-          },
-          {
-            "name": "rating",
-            "type": "u32"
-          },
-          {
-            "name": "total_rides",
-            "type": "u32"
-          }
-        ]
-      }
-    },
-    {
-      "name": "EscrowAccount",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "platform_fee_rate",
-            "type": "u16"
-          },
-          {
-            "name": "fee_recipient",
-            "type": "pubkey"
-          }
-        ]
-      }
-    },
-    {
-      "name": "RideAccepted",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "trip_id",
-            "type": "u64"
-          },
-          {
-            "name": "driver",
-            "type": "pubkey"
-          }
-        ]
-      }
-    },
-    {
-      "name": "RideAccount",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "trip_id",
-            "type": "u64"
-          },
-          {
-            "name": "rider",
-            "type": "pubkey"
-          },
-          {
-            "name": "driver",
-            "type": "pubkey"
-          },
-          {
-            "name": "fare",
-            "type": "u64"
-          },
-          {
-            "name": "source",
-            "type": {
-              "array": ["i64", 2]
-            }
-          },
-          {
-            "name": "destination",
-            "type": {
-              "array": ["i64", 2]
-            }
-          },
-          {
-            "name": "status",
-            "type": {
-              "defined": {
-                "name": "RideStatus"
-              }
-            }
-          },
-          {
-            "name": "created_at",
-            "type": "i64"
-          },
-          {
-            "name": "driver_rating",
-            "type": "u8"
-          },
-          {
-            "name": "rider_rating",
-            "type": "u8"
-          }
-        ]
-      }
-    },
-    {
-      "name": "RideCancelled",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "trip_id",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
-      "name": "RideCompleted",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "trip_id",
-            "type": "u64"
-          },
-          {
-            "name": "driver_rating",
-            "type": "u8"
-          },
-          {
-            "name": "rider_rating",
-            "type": "u8"
-          }
-        ]
-      }
-    },
-    {
-      "name": "RideCreated",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "trip_id",
-            "type": "u64"
-          },
-          {
-            "name": "rider",
-            "type": "pubkey"
-          },
-          {
-            "name": "fare",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
-      "name": "RideStatus",
-      "type": {
-        "kind": "enum",
-        "variants": [
-          {
-            "name": "Created"
-          },
-          {
-            "name": "Accepted"
-          },
-          {
-            "name": "Completed"
-          },
-          {
-            "name": "Cancelled"
-          }
-        ]
-      }
-    }
+    { "code": 6008, "name": "InvalidRating", "msg": "Invalid rating." }
   ]
 }
