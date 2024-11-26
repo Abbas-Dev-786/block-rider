@@ -14,7 +14,6 @@ This project implements a **Ride Sharing Escrow System** built on the **Soon Blo
   
 The application uses **Soon Blockchain** to ensure transaction security and immutability.
 
----
 
 ## 🚀 **Technologies Used**
 
@@ -25,7 +24,6 @@ The application uses **Soon Blockchain** to ensure transaction security and immu
 - **Anchor Framework**: To simplify the development and testing of Solana smart contracts.
 - **React**: For building the user interface.
 
----
 
 ## 📜 **Smart Contract Description**
 
@@ -59,7 +57,6 @@ The smart contract provides several functionalities, encapsulated in the `ride_s
 ### **Error Handling**:
 The contract also provides error handling for various scenarios like invalid ride state, unregistered driver, unauthorized actions, and invalid ratings.
 
----
 
 ## 💡 **Future Enhancements**
 - **Integration with Real-Time GPS:** Allow real-time tracking of rides using GPS coordinates.
