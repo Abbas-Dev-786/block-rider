@@ -1,17 +1,8 @@
-// import { Socials } from "../../constants";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useAccount, useReadContract } from "wagmi";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { CONTRACT_ADDRESS, NETWORK, PROGRAM_ID } from "../../constant";
-import abi from "../../abi/contract.abi.json";
-import { PublicKey } from "@solana/web3.js";
-// import { AnchorProvider } from "@project-serum/anchor";
-
-const programId = new PublicKey(PROGRAM_ID);
-const network = NETWORK;
+import { useDriverDetails } from "../../hooks/useDriverDetails";
 
 const NAV_LINKS = [
   { text: "Book a Ride", link: "/book-ride", showOnConnected: false },
@@ -26,8 +17,9 @@ const NAV_LINKS = [
 ];
 
 const Navbar = () => {
-  const { connection } = useConnection();
-  const { publicKey, sendTransaction, wallet } = useWallet();
+  const { publicKey, connected } = useWallet();
+
+  // const { driverDetails, fetchDriverDetails } = useDriverDetails();
 
   // const { isConnected, address } = useAccount();
   const [isOpen, setOpen] = useState(false);
@@ -38,6 +30,16 @@ const Navbar = () => {
   //   functionName: "drivers",
   //   args: [address],
   // });
+
+  // useEffect(() => {
+  //   const loadUserData = async () => {
+  //     if (connected) {
+  //       await fetchDriverDetails();
+  //     }
+  //   };
+
+  //   loadUserData();
+  // }, [connected]);
 
   return (
     <header>
