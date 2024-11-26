@@ -61,6 +61,11 @@ The contract also provides error handling for various scenarios like invalid rid
 
 ---
 
+## 💡 **Future Enhancements**
+- **Integration with Real-Time GPS:** Allow real-time tracking of rides using GPS coordinates.
+- **UI Improvements:** Enhance the user interface for easier navigation and better user experience.
+- **Decentralized Reputation System:** Implement a reputation system based on rider and driver feedback.
+
 ## 🔧 **How to Use**
 
 ### **1. Prerequisites**
