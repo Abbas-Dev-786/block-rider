@@ -1,26 +1,28 @@
 import { useState } from "react";
-import { useWriteContract } from "wagmi";
-import abi from "./../abi/contract.abi.json";
-import { CONTRACT_ADDRESS } from "../constant";
+// import { useWriteContract } from "wagmi";
+// import abi from "./../abi/contract.abi.json";
+// import { CONTRACT_ADDRESS } from "../constant";
 import { toast } from "react-toastify";
+import { useRideSharingProgram } from "../hooks/useRideSharing";
 
 const DriverRegister = () => {
   const [name, setName] = useState("");
   const [license, setLicense] = useState("");
+  const { registerDriver } = useRideSharingProgram();
 
-  const {
-    data: hash,
-    isPending,
-    writeContract,
-    error,
-    isError,
-  } = useWriteContract();
-  console.log(hash);
+  // const {
+  //   data: hash,
+  //   isPending,
+  //   writeContract,
+  //   error,
+  //   isError,
+  // } = useWriteContract();
+  // console.log(hash);
 
-  if (isError) {
-    console.log(error);
-    toast.error(error.shortMessage || error.message);
-  }
+  // if (isError) {
+  //   console.log(error);
+  //   toast.error(error.shortMessage || error.message);
+  // }
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -30,12 +32,14 @@ const DriverRegister = () => {
       return;
     }
 
-    writeContract({
-      abi,
-      address: CONTRACT_ADDRESS,
-      functionName: "registerDriver",
-      args: [name, license],
-    });
+    registerDriver(name, license);
+
+    // writeContract({
+    //   abi,
+    //   address: CONTRACT_ADDRESS,
+    //   functionName: "registerDriver",
+    //   args: [name, license],
+    // });
   };
 
   return (
@@ -75,7 +79,7 @@ const DriverRegister = () => {
           <button
             className="bg-slate-800 mx-auto hover:bg-slate-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
-            disabled={isPending}
+            // disabled={isPending}
           >
             Register as a Driver
           </button>
