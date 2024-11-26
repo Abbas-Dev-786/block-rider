@@ -74,14 +74,30 @@ export const useRideSharingProgram = () => {
       if (!wallet || !wallet.publicKey) {
         throw new Error("Wallet is not connected.");
       }
+
+      const driverAccount = new web3.Keypair(); // Account that will hold the driver's data
+      const systemProgram = web3.SystemProgram.programId;
       const data = Buffer.from(JSON.stringify({ name, licenseNumber }));
       const instruction = new web3.TransactionInstruction({
-        keys: [{ pubkey: wallet.publicKey, isSigner: true, isWritable: true }],
+        // keys: [{ pubkey: wallet.publicKey, isSigner: true, isWritable: true }],
+        keys: [
+          { pubkey: driverAccount.publicKey, isSigner: true, isWritable: true }, // driverAccount is mutable
+          { pubkey: wallet.publicKey, isSigner: true, isWritable: false }, // driver (signer)
+          { pubkey: systemProgram, isSigner: false, isWritable: false }, // systemProgram
+        ],
         programId: PROGRAM_ID,
         data,
       });
+
       const transaction = new web3.Transaction().add(instruction);
-      const signature = await wallet.sendTransaction(transaction, connection);
+
+      const signers = [wallet, driverAccount];
+      const signature = await wallet.sendTransaction(
+        transaction,
+        connection,
+        signers
+      );
+
       await connection.confirmTransaction(signature, "processed");
       console.log("Transaction Signature:", signature);
     } catch (error) {
