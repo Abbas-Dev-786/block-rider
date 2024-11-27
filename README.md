@@ -89,8 +89,6 @@ The contract also provides error handling for various scenarios like invalid rid
 - **Web3 Wallet** (Backpack Wallet) connected to the Soon Testnet
 - **Rust** and **Anchor** framework installed for smart contract deployment
 
-### **2. Set up the Project**
-Clone the repository:
 
 ```bash
 git clone https://github.com/your-username/ride-sharing-escrow.git
