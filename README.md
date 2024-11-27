@@ -4,6 +4,8 @@
 
 This project implements a **Ride Sharing Escrow System** built on the **Soon Blockchain**, providing a decentralized solution for ride-sharing transactions. The platform allows for secure management of rides, driver registration, fare payments, and rating systems, all powered by smart contracts. The system ensures the protection of both riders and drivers through an escrow mechanism, platform fee management, and transaction validation.
 
+![MochiMochimochiGIF (2)](https://github.com/user-attachments/assets/facb2478-167a-42b3-985d-143b7ce1dbbc)
+
 ### **Key Features:**
 
 - **Driver Registration**: Allows drivers to register their details including name and license number.
