@@ -57,6 +57,24 @@ The smart contract provides several functionalities, encapsulated in the `ride_s
 ### **Error Handling**:
 The contract also provides error handling for various scenarios like invalid ride state, unregistered driver, unauthorized actions, and invalid ratings.
 
+## Challenges Faced
+
+### 1. **Integrating `@coral-xyz/anchor` with React**
+   - Adapting Anchor's TypeScript-heavy framework to work seamlessly with a React-based frontend.
+   - Managing Anchor program accounts and ensuring proper deserialization of data.
+
+### 2. **Handling Wallet Connectivity with `@solana/wallet-adapter-react`**
+   - Managing multiple wallet adapters to provide a smooth user experience.
+   - Debugging intermittent connectivity issues with certain wallets.
+   - Implementing secure wallet interactions while ensuring compatibility with the Solana ecosystem.
+
+### 3. **Interfacing with `@solana/web3.js`**
+   - Understanding and utilizing the low-level APIs provided by `@solana/web3.js` for transaction creation and signing.
+   - Efficiently handling asynchronous operations like fetching account data and sending transactions.
+
+### 4. **Deployment and Testing**
+   - Deploying Anchor programs to Solana Devnet and managing program upgrades.
+   - Writing comprehensive tests for both on-chain programs and frontend components.
 
 ## 💡 **Future Enhancements**
 - **Integration with Real-Time GPS:** Allow real-time tracking of rides using GPS coordinates.
