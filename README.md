@@ -88,8 +88,3 @@ The contract also provides error handling for various scenarios like invalid rid
 - **Solana CLI** and **Soon Blockchain Testnet** setup
 - **Web3 Wallet** (Backpack Wallet) connected to the Soon Testnet
 - **Rust** and **Anchor** framework installed for smart contract deployment
-
-
-```bash
-git clone https://github.com/your-username/ride-sharing-escrow.git
-cd ride-sharing-escrow
