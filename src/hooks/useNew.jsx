@@ -28,7 +28,7 @@ const useNew = () => {
       const program = new Program(idl, PROGRAM_ID, provider);
 
       const driverAccount = web3.Keypair.generate();
-      await program.rpc.registerDriver(driverName, licenseNumber, {
+      const tx = await program.rpc.registerDriver(driverName, licenseNumber, {
         accounts: {
           driverAccount: driverAccount.publicKey,
           driver: provider.wallet.publicKey,
@@ -37,7 +37,20 @@ const useNew = () => {
         signers: [driverAccount],
       });
 
-      toast.success("Driver Registered Successfully");
+      toast(
+        <p className="text-black">
+          Driver Registered Successfully <br />
+          <a
+            target="_blank"
+            href={`https://explorer.testnet.soo.network/tx/${tx}`}
+            className="text-blue-600"
+          >
+            View on Block Explorer{" "}
+          </a>
+        </p>,
+        { closeOnClick: false }
+      );
+      // toast.success("Driver Registered Successfully");
 
       console.log("Driver registered successfully");
     } catch (error) {
@@ -79,7 +92,21 @@ const useNew = () => {
 
       console.log(signature);
 
-      toast.success("Ride Created Successfully");
+      toast(
+        <p className="text-black">
+          Ride Created Successfully <br />
+          <a
+            target="_blank"
+            href={`https://explorer.testnet.soo.network/tx/${signature}`}
+            className="text-blue-600"
+          >
+            View on Block Explorer{" "}
+          </a>
+        </p>,
+        { closeOnClick: false }
+      );
+
+      // toast.success("Ride Created Successfully");
       setIsSuccess(true);
       console.log("Ride created successfully");
     } catch (error) {
