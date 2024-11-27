@@ -8,73 +8,52 @@ import {
 import CarListItem from "./CarListItem";
 import { CarListData } from "../data/data";
 import driverAnimation from "./../assets/driver-animation.mp4";
-import { CONTRACT_ADDRESS } from "../constant";
-import abi from "./../abi/contract.abi.json";
-import { useWriteContract, useAccount, useBalance } from "wagmi";
 import { SourceContext } from "../context/SourceContext";
 import { DestinationContext } from "../context/DestinationContext";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import useNew from "../hooks/useNew";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 function CarListOption({ distance }) {
-  const { isConnected, address } = useAccount();
-  const { data } = useBalance({ address });
+  const { connected, wallet } = useWallet();
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState();
   const [selectedCar, setSelectedCar] = useState();
   const { source } = useContext(SourceContext);
   const { destination } = useContext(DestinationContext);
+
+  const { createRide, isPending, isSuccess } = useNew();
   const navigate = useNavigate();
 
-  const {
-    data: hash,
-    isPending,
-    isSuccess,
-    writeContract,
-    error,
-    isError,
-  } = useWriteContract();
-
   const handleRideRequestBtnClick = () => {
-    if (!isConnected) {
+    if (!connected) {
       toast.error("Please Login to book the ride");
       return;
     }
 
-    if (!data || data?.value === 0n) {
-      toast.error("Insuffient funds");
-      return;
-    }
+    // if (!data || data?.value === 0n) {
+    //   toast.error("Insuffient funds");
+    //   return;
+    // }
 
     setIsOpen(true);
-    writeContract({
-      abi,
-      value: 1,
-      // value: (selectedCar.amount * distance).toFixed(2),
-      address: CONTRACT_ADDRESS,
-      functionName: "createRide",
-      args: [
-        [Math.round(source.lat * 1e6), Math.round(source.lng * 1e6)],
-        [Math.round(destination.lat * 1e6), Math.round(destination.lng * 1e6)],
-      ],
-    });
+
+    const sourceCoords = [source.lat, source.lng];
+    const destinationCoords = [destination.lat, destination.lng];
+
+    toast.error("", {});
+    // createRide(sourceCoords, destinationCoords, 0.001);
   };
 
   useEffect(() => {
-    if (hash && isSuccess) {
-      toast.success("ride booking successfull");
+    if (isSuccess) {
       setIsOpen(false);
       navigate("/trips");
     }
 
     // eslint-disable-next-line
-  }, [isSuccess, hash]);
-
-  useEffect(() => {
-    if (isError) {
-      toast.error(error?.message || "Something went wrong");
-    }
-  }, [isError, error]);
+  }, [isSuccess]);
 
   return (
     <div className="mt-5 overflow-auto h-[500px]">
