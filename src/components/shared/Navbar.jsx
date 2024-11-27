@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useDriverDetails } from "../../hooks/useDriverDetails";
+import useNew from "../../hooks/useNew";
 
 const NAV_LINKS = [
   { text: "Book a Ride", link: "/book-ride", showOnConnected: false },
@@ -20,6 +21,7 @@ const Navbar = () => {
   const { publicKey, connected } = useWallet();
 
   // const { driverDetails, fetchDriverDetails } = useDriverDetails();
+  const { fetchDriverDetails, driver } = useNew();
 
   // const { isConnected, address } = useAccount();
   const [isOpen, setOpen] = useState(false);
@@ -31,15 +33,11 @@ const Navbar = () => {
   //   args: [address],
   // });
 
-  // useEffect(() => {
-  //   const loadUserData = async () => {
-  //     if (connected) {
-  //       await fetchDriverDetails();
-  //     }
-  //   };
-
-  //   loadUserData();
-  // }, [connected]);
+  useEffect(() => {
+    if (connected) {
+      fetchDriverDetails();
+    }
+  }, [connected]);
 
   return (
     <header>
@@ -130,7 +128,7 @@ const Navbar = () => {
                 </li>
               ))}
 
-              {/* {driverData?.[0] && (
+              {driver?.[0] && (
                 <li onClick={() => setOpen(false)}>
                   <NavLink
                     to={"/driver-panel"}
@@ -143,7 +141,7 @@ const Navbar = () => {
                     Driver Panel
                   </NavLink>
                 </li>
-              )} */}
+              )}
             </ul>
           </div>
         </div>

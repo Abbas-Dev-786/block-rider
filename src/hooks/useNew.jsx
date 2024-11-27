@@ -7,6 +7,9 @@ import {
 import { PROGRAM_ID } from "../constant";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { PublicKey } from "@solana/web3.js";
+
+import { Buffer } from "buffer";
 
 const useNew = () => {
   const { connection } = useConnection();
@@ -14,6 +17,7 @@ const useNew = () => {
   const [isPending, setIsPending] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [rides, setRides] = useState([]);
+  const [driver, setDriver] = useState([]);
 
   const registerDriver = async (driverName, licenseNumber) => {
     try {
@@ -113,6 +117,31 @@ const useNew = () => {
     }
   };
 
+  const fetchDriverDetails = async () => {
+    try {
+      const provider = new AnchorProvider(
+        connection,
+        wallet,
+        AnchorProvider.defaultOptions()
+      );
+
+      const program = new Program(idl, PROGRAM_ID, provider);
+
+      const filter = {
+        memcmp: {
+          offset: 8, // Offset to the driver field
+          bytes: wallet.publicKey.toBase58(),
+        },
+      };
+
+      const driverAccounts = await program.account.driverAccount.all([filter]);
+      console.log("Fetched driver details:", driverAccounts);
+      setDriver(driverAccounts);
+    } catch (error) {
+      console.error("Error fetching driver details:", error);
+    }
+  };
+
   return {
     registerDriver,
     createRide,
@@ -120,6 +149,8 @@ const useNew = () => {
     isSuccess,
     rides,
     fetchRides,
+    fetchDriverDetails,
+    driver,
   };
 };
 
