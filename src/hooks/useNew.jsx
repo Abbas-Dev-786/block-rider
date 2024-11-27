@@ -140,6 +140,66 @@ const useNew = () => {
     }
   };
 
+  const acceptRide = async (rideId) => {
+    try {
+      setIsPending(true);
+      const provider = new AnchorProvider(
+        connection,
+        wallet,
+        AnchorProvider.defaultOptions()
+      );
+
+      const program = new Program(idl, PROGRAM_ID, provider);
+
+      const rideAccount = await program.account.rideAccount.fetch(
+        new web3.PublicKey(rideId)
+      );
+      await program.rpc.acceptRide(new BN(rideAccount.tripId), {
+        accounts: {
+          rideAccount: rideAccount.publicKey,
+          driver: provider.wallet.publicKey,
+          driverAccount: rideAccount.driver,
+        },
+      });
+
+      console.log("Ride accepted successfully");
+    } catch (error) {
+      console.error("Error accepting ride:", error);
+    } finally {
+      setIsPending(false);
+    }
+  };
+
+  const cancelRide = async (rideId) => {
+    try {
+      setIsPending(true);
+      const provider = new AnchorProvider(
+        connection,
+        wallet,
+        AnchorProvider.defaultOptions()
+      );
+
+      const program = new Program(idl, PROGRAM_ID, provider);
+
+      const rideAccount = await program.account.rideAccount.fetch(
+        new web3.PublicKey(rideId)
+      );
+      await program.rpc.cancelRide(new BN(rideAccount.tripId), {
+        accounts: {
+          rideAccount: rideAccount.publicKey,
+          driver: provider.wallet.publicKey,
+          driverAccount: rideAccount.driver,
+        },
+      });
+
+      console.log("Ride accepted successfully");
+    } catch (error) {
+      console.error("Error accepting ride:", error);
+    } finally {
+      setIsPending(false);
+    }
+  };
+
   return {
     registerDriver,
     createRide,
@@ -149,6 +209,8 @@ const useNew = () => {
     fetchRides,
     fetchDriverDetails,
     driver,
+    acceptRide,
+    cancelRide,
   };
 };
 
