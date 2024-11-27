@@ -1,30 +1,13 @@
 import { useState } from "react";
-// import { useWriteContract } from "wagmi";
-// import abi from "./../abi/contract.abi.json";
-// import { CONTRACT_ADDRESS } from "../constant";
 import { toast } from "react-toastify";
-import { useRideSharingProgram } from "../hooks/useRideSharing";
+import useNew from "../hooks/useNew";
 
 const DriverRegister = () => {
   const [name, setName] = useState("");
   const [license, setLicense] = useState("");
-  const { registerDriver } = useRideSharingProgram();
+  const { registerDriver } = useNew();
 
-  // const {
-  //   data: hash,
-  //   isPending,
-  //   writeContract,
-  //   error,
-  //   isError,
-  // } = useWriteContract();
-  // console.log(hash);
-
-  // if (isError) {
-  //   console.log(error);
-  //   toast.error(error.shortMessage || error.message);
-  // }
-
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
     if (!name || !license) {
@@ -32,14 +15,7 @@ const DriverRegister = () => {
       return;
     }
 
-    registerDriver(name, license);
-
-    // writeContract({
-    //   abi,
-    //   address: CONTRACT_ADDRESS,
-    //   functionName: "registerDriver",
-    //   args: [name, license],
-    // });
+    await registerDriver(name, license);
   };
 
   return (
