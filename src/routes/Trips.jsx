@@ -1,50 +1,14 @@
-import { toast } from "react-toastify";
-import { useReadContract } from "wagmi";
-import abi from "../abi/contract.abi.json";
-import { CONTRACT_ADDRESS } from "../constant";
 import useNew from "../hooks/useNew";
 import { useEffect } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 
 const Trips = () => {
-  const { data, error, isLoading, isError } = useReadContract({
-    abi,
-    address: CONTRACT_ADDRESS,
-    functionName: "getMyTrips",
-  });
   const { connected } = useWallet();
   const { rides, fetchRides } = useNew();
 
   useEffect(() => {
     connected && fetchRides();
   }, [connected]);
-
-  // if (isLoading) {
-  //   return (
-  //     <div className="w-full h-screen flex items-center justify-center">
-  //       <h2 className="text-center">Loading...</h2>
-  //     </div>
-  //   );
-  // }
-
-  // if (isError) {
-  //   toast.error(error.shortMessage);
-  //   return (
-  //     <div className="w-full h-screen flex items-center justify-center">
-  //       <h2 className="text-center text-red-500 font-semibold">
-  //         Error:- {error.shortMessage}
-  //       </h2>
-  //     </div>
-  //   );
-  // }
-
-  // if (!data) {
-  //   return (
-  //     <div className="w-full h-screen flex items-center justify-center">
-  //       <h2 className="text-center">No trips found</h2>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="w-full h-screen flex items-center justify-center">

@@ -6,7 +6,6 @@ import RideBookingPage from "./routes/RideBooking";
 import { useState } from "react";
 import { SourceContext } from "./context/SourceContext";
 import { DestinationContext } from "./context/DestinationContext";
-import NotificationSettings from "./routes/NotificationSettings";
 import DriverRegister from "./routes/DriverRegister";
 import Notification from "./components/shared/Notification";
 import Trips from "./routes/Trips";
@@ -25,7 +24,6 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/book-ride" element={<RideBookingPage />} />{" "}
-          <Route path="/notifications" element={<NotificationSettings />} />
           <Route path="/driver-register" element={<DriverRegister />} />{" "}
           <Route path="/driver-panel" element={<DriverPanel />} />{" "}
           <Route path="/trips" element={<Trips />} />{" "}
