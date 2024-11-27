@@ -7,9 +7,6 @@ import {
 import { PROGRAM_ID } from "../constant";
 import { toast } from "react-toastify";
 import { useState } from "react";
-import { PublicKey } from "@solana/web3.js";
-
-import { Buffer } from "buffer";
 
 const useNew = () => {
   const { connection } = useConnection();
@@ -109,9 +106,10 @@ const useNew = () => {
         },
       };
 
-      const ridesAccounts = await program.account.rideAccount.all([filter]);
+      const rideAccounts = await program.account.rideAccount.all([filter]);
+      console.log(rideAccounts);
 
-      setRides(ridesAccounts);
+      setRides(rideAccounts);
     } catch (error) {
       console.error("Error fetching rides:", error);
     }
