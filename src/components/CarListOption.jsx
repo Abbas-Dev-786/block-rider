@@ -16,7 +16,7 @@ import useNew from "../hooks/useNew";
 import { useWallet } from "@solana/wallet-adapter-react";
 
 function CarListOption({ distance }) {
-  const { connected, wallet } = useWallet();
+  const { connected } = useWallet();
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState();
   const [selectedCar, setSelectedCar] = useState();
@@ -32,18 +32,12 @@ function CarListOption({ distance }) {
       return;
     }
 
-    // if (!data || data?.value === 0n) {
-    //   toast.error("Insuffient funds");
-    //   return;
-    // }
-
     setIsOpen(true);
 
     const sourceCoords = [source.lat, source.lng];
     const destinationCoords = [destination.lat, destination.lng];
 
-    toast.error("", {});
-    // createRide(sourceCoords, destinationCoords, 0.001);
+    createRide(sourceCoords, destinationCoords, 0.001);
   };
 
   useEffect(() => {
